@@ -6,3 +6,4 @@ EasyMedAI 是一个基于 PyTorch 和 MMEngine 实现的，用于医疗图像大
 ### 2.准备数据集
 ### 3.运行
 ### 4 test 
+### 5 test
