@@ -164,3 +164,4 @@ others/
 train_work_dir/
 trainlogs/
 *.pth
+.aim/
