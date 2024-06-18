@@ -1,9 +1,12 @@
 import EasyMedAI
+from EasyMedAI.dataset.MedMNIST_PLUS import MNIST_224,MNIST_128, subSetType
 from EasyMedAI.dataset.segmentation.demoDataset import CamVid,create_palette
+from EasyMedAI.enums import TaskType
 from EasyMedAI.models.modelFactory import createTrainModel
 from torch.hub import load
 import medmnist 
 from medmnist import OrganAMNIST
+mnis= MNIST_128("data/mnist_plus",subSetName=subSetType.organamnist,task_type=TaskType.Classification)
 # train_dataset = OrganAMNIST(split="train",download=True,root="data/medmnist")
 
 # import sys
