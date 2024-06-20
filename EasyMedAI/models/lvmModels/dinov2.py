@@ -62,6 +62,7 @@ class dinov2_base_pretrained(LvmBaseModel):
         super(dinov2_base_pretrained, self).__init__(num_classes,user_to_head)
         dinoConfig=dino_backbones[dino_backbone]
         self.model = load('facebookresearch/dinov2', dinoConfig["name"])
+        # t=self.model.get_intermediate_layers()
         self.transform_img= transforms.Compose([
             transforms.ToTensor(),
             transforms.Resize((14*32,14*32)),
@@ -78,12 +79,49 @@ class dinov2_base_pretrained(LvmBaseModel):
         self.embedding_size=dinoConfig["embedding_size"]
     def lossFun(self,x,data_samples):
         return F.cross_entropy(x, data_samples['labels'])
+    """
+    def forward(self, x):
+        if self.layers == 1:
+            x = self.backbone.forward_features(x)
+            cls_token = x["x_norm_clstoken"]
+            patch_tokens = x["x_norm_patchtokens"]
+            # fmt: off
+            linear_input = torch.cat([
+                cls_token,
+                patch_tokens.mean(dim=1),
+            ], dim=1)
+            # fmt: on
+        elif self.layers == 4:
+            x = self.backbone.get_intermediate_layers(x, n=4, return_class_token=True)
+            # fmt: off
+            linear_input = torch.cat([
+                x[0][1],
+                x[1][1],
+                x[2][1],
+                x[3][1],
+                x[3][0].mean(dim=1),
+            ], dim=1)
+            # fmt: on
+        else:
+            assert False, f"Unsupported number of layers: {self.layers}"
+        return self.linear_head(linear_input)
+    """
     def forward(self, x):
         batch_size = x.shape[0]
         mask_dim = (x.shape[2] / self.patch_size, x.shape[3] / self.patch_size) 
         with torch.no_grad():
+            # x = self.model.get_intermediate_layers(x, n=4, return_class_token=True)
             x = self.model.forward_features(x.cuda())
+            # cls_token = x["x_norm_clstoken"]
+            # patch_tokens = x["x_norm_patchtokens"]
+            # # fmt: off
+            # linear_input = torch.cat([
+            #     cls_token,
+            #     patch_tokens.mean(dim=1),
+            # ], dim=1)
             x = x['x_norm_patchtokens']
+            # image_like_patches = rows_of_patches.reshape(-1, H, W, C)
             x = x.permute(0,2,1)
             x = x.reshape(batch_size,self.embedding_size,int(mask_dim[0]),int(mask_dim[1]))
+            
         return x
