@@ -1,2 +1,3 @@
 mmengine==0.10.4
 aim==3.20.1
+medmnist==3.0.1
