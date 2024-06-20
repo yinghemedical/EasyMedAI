@@ -1,12 +1,19 @@
 import EasyMedAI
-from EasyMedAI.dataset.MedMNIST_PLUS import MNIST_224,MNIST_128, subSetType
+from EasyMedAI.dataset.MedMNIST_PLUS import MNIST_224,MNIST_128, MNISTSubSetType,MNIST_64
 from EasyMedAI.dataset.segmentation.demoDataset import CamVid,create_palette
-from EasyMedAI.enums import TaskType
+from EasyMedAI.dataset.MSD import MSDDataSet, MSDSubSetType
+from EasyMedAI.enums import DataSetType, TaskType
 from EasyMedAI.models.modelFactory import createTrainModel
 from torch.hub import load
 import medmnist 
 from medmnist import OrganAMNIST
-mnis= MNIST_128("data/mnist_plus",subSetName=subSetType.organamnist,task_type=TaskType.Classification)
+
+from EasyMedAI.utils import create_color_to_class
+color_to_class=create_color_to_class([0,1])
+trainModel =createTrainModel("dinov2_s_pretrained",2,"conv_s")
+train_set= MSDDataSet("data/msd",subSetName=MSDSubSetType.Task09_Spleen,task_type=TaskType.Segmentation,dataset_type=DataSetType.train,transform=trainModel.transform_img,target_transform=trainModel.transform_lable)
+valid_set= MSDDataSet("data/msd",subSetName=MSDSubSetType.Task09_Spleen,task_type=TaskType.Segmentation,dataset_type=DataSetType.val,transform=trainModel.transform_img,target_transform=trainModel.transform_lable)
+
 # train_dataset = OrganAMNIST(split="train",download=True,root="data/medmnist")
 
 # import sys
@@ -19,23 +26,23 @@ mnis= MNIST_128("data/mnist_plus",subSetName=subSetType.organamnist,task_type=Ta
 # inferModel =createInferModel("deeplabv3_resnet50_pretrained",num_class,backboneModlePertrained="./notebooks/epoch_20.pth")
 
 
-color_to_class=create_palette("data/CamVid/class_dict.csv")
-num_class=len(color_to_class.items())
-trainModel =createTrainModel("dinov2_s_pretrained",num_class,"conv_s")
-#trainModel =createTrainModel("deeplabv3_resnet50_pretrained",num_class)
-train_set = CamVid(
-    'data/CamVid',
-    img_folder='train',
-    mask_folder='train_labels',
-    transform=trainModel.transform_img,
-    target_transform=trainModel.transform_lable)
+# color_to_class=create_palette("data/CamVid/class_dict.csv")
+# num_class=len(color_to_class.items())
 
-valid_set = CamVid(
-    'data/CamVid',
-    img_folder='val',
-    mask_folder='val_labels',
-    transform=trainModel.transform_img,
-    target_transform=trainModel.transform_lable)
+#trainModel =createTrainModel("deeplabv3_resnet50_pretrained",num_class)
+# train_set = CamVid(
+#     'data/CamVid',
+#     img_folder='train',
+#     mask_folder='train_labels',
+#     transform=trainModel.transform_img,
+#     target_transform=trainModel.transform_lable)
+
+# valid_set = CamVid(
+#     'data/CamVid',
+#     img_folder='val',
+#     mask_folder='val_labels',
+#     transform=trainModel.transform_img,
+#     target_transform=trainModel.transform_lable)
 
 
 

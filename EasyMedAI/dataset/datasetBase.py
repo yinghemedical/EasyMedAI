@@ -34,39 +34,27 @@ class datasetBase(VisionDataset):
         self.load_type=load_type
         self.task_type=task_type
         # self.color_to_class = create_color_to_class(class_list)
-    def getMasks(self,index):
-        raise NotImplementedError()
-    def getClass(self,index):
+    def getLable(self,index):
         raise NotImplementedError()
     def __getitem__(self, index):
 
-        img_path = os.path.join(self.root, self.img_folder, self.images[index])
-        mask_path = os.path.join(self.root, self.mask_folder,
+        img_path = os.path.join(self.img_folder, self.images[index])
+        mask_path = os.path.join(self.mask_folder,
                                  self.masks[index])
         if self.load_type==DataSetLoadType.Png:
             img = Image.open(img_path).convert('RGB')
             # mask = Image.open(mask_path).convert('RGB')  # Convert to RGB
             if self.transform is not None:
                 img = self.transform(img)
-            if self.load_type==TaskType.Segmentation:
-                # Convert the RGB values to class indices
-                # mask = np.array(mask)
-                # mask = mask[:, :, 0] * 65536 + mask[:, :, 1] * 256 + mask[:, :, 2]
-                # labels = np.zeros_like(mask, dtype=np.int64)
-                # for color, class_index in self.color_to_class.items():
-                #     rgb = color[0] * 65536 + color[1] * 256 + color[2]
-                #     labels[mask == rgb] = class_index
-                labels =self.getMasks(index)
-                if self.target_transform is not None:
-                    labels = self.target_transform(labels)
-                classes=[]
-            elif self.load_type==TaskType.Classification:
-                labels =[]
-                classes =self.getClass(index)
-                classes = torch.as_tensor(classes)
+            labels =self.getLable(index)
+            if self.target_transform is not None and labels is not None and self.task_type==TaskType.Segmentation:
+                labels = self.target_transform(labels)
+            # classes =self.getClass(index)
+            # classes = torch.as_tensor(classes)
+            # if labels ==None:
+            #     labels=torch.as_tensor(classes)
             data_samples = dict(
-                labels=labels, img_path=img_path, mask_path=mask_path, classes=classes,task_type=self.load_type)
+                labels=labels, img_path=img_path, mask_path=mask_path, task_type=self.task_type.name,load_type=self.load_type.name)
             return img, data_samples
-
     def __len__(self):
         return len(self.images)

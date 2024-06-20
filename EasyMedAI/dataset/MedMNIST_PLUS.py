@@ -2,7 +2,7 @@ import os
 import numpy as np
 from torchvision.datasets import VisionDataset
 from PIL import Image
-from EasyMedAI.enums import DataSetLoadType, TaskType
+from EasyMedAI.enums import DataSetLoadType, DataSetType, TaskType
 from EasyMedAI.dataset.datasetBase import datasetBase
 from medmnist.info import INFO
 from enum import Enum
@@ -11,7 +11,7 @@ from enum import Enum
 # DataSetConifg_2D_64={"pathmnist":{"downloadUrl":None,"size":64},"chestmnist":{"downloadUrl":None,"size":64}}
 DATASETHOMEPAGE="https://github.com/MedMNIST/MedMNIST/"
 window_config={"organamnist":[{1:[1200,-600]}]}
-class subSetType(Enum):
+class MNISTSubSetType(Enum):
     pathmnist ="pathmnist"
     chestmnist= "chestmnist"
     dermamnist ="dermamnist"
@@ -30,10 +30,6 @@ class subSetType(Enum):
     # fracturemnist3d ="FractureMNIST3D"
     # vesselmnist3d ="vesselmnist3d"
     # synapsemnist3d ="synapsemnist3d"
-class DataSetType(Enum):
-    train= "train"
-    val= "val"
-    test= "test"
 # 0:
 # 'train_images'
 # 1:
@@ -49,7 +45,7 @@ class DataSetType(Enum):
 class MNIST(datasetBase):
     def __init__(self,
                  root,
-                 subSetName:subSetType=None,
+                 subSetName:MNISTSubSetType=None,
                  size=224,
                  transform=None,
                  target_transform=None,
@@ -100,26 +96,31 @@ class MNIST(datasetBase):
                 mmap_mode="r",
             )
             imgs = npz_file[f"{dataset_type.value}_images"]
+            lables =npz_file[f"{dataset_type.value}_labels"]
             for i in range(imgs.shape[0]):
                 img=imgs[i]
                 img = Image.fromarray(img)
                 img = img.convert("RGB")
                 img.save(os.path.join(self.img_folder,str(i)+".png"))
+                np.save(os.path.join(self.mask_folder,str(i)+".npy"), lables[i])
             imgs=None
+            lables= None
             
-            np.save(os.path.join(self.mask_folder,"class.npy"), npz_file[f"{dataset_type.value}_labels"])
             # print(npz_file)     
         self.images = list(
-            sorted(os.listdir(self.img_folder)))
-        self.masks = np.load(os.path.join(self.mask_folder,"class.npy"))
-        # self.color_to_class = create_palette(
-        #     os.path.join(self.root, 'class_dict.csv'))
-    def getClass(self,index):
-        tasks=self.info["task"].slice()
+            sorted(os.listdir(self.img_folder),key=lambda x: int(x.replace('.png',''))))
+        self.masks = list(
+            sorted(os.listdir(self.mask_folder),key=lambda x: int(x.replace('.npy',''))))
+    
+    def getLable(self,index):
+        tasks=self.info["task"].split(",")
+        mask_path = os.path.join(self.mask_folder,
+                                 self.masks[index])
+        classData= np.load(mask_path)
         if  "multi-label" in tasks :
-            return  self.masks[index]
+            return  classData
         else:
-            return  [self.masks[index]]
+            return  [classData]
     def download(self):
         try:
             from torchvision.datasets.utils import download_url
@@ -151,7 +152,7 @@ class MNIST(datasetBase):
 class MNIST_224(MNIST):
     def __init__(self,
                  root,
-                 subSetName:subSetType=subSetType.organamnist,
+                 subSetName:MNISTSubSetType=MNISTSubSetType.organamnist,
                  transform=None,
                  target_transform=None,
                  load_type:DataSetLoadType= DataSetLoadType.Png,
@@ -163,7 +164,7 @@ class MNIST_224(MNIST):
 class MNIST_128(MNIST):
     def __init__(self,
                  root,
-                 subSetName:subSetType=subSetType.organamnist,
+                 subSetName:MNISTSubSetType=MNISTSubSetType.organamnist,
                  transform=None,
                  target_transform=None,
                  load_type:DataSetLoadType= DataSetLoadType.Png,

@@ -57,7 +57,10 @@ class conv_base_net(LvmBaseModel):
             nn.Conv2d(64, num_classes, (3,3), padding=(1,1)),
         )
     def lossFun(self,x,data_samples):
-        lable=data_samples['labels'][:,-1,:,:]
+        task_type=data_samples["task_type"][0]
+        if task_type != "Segmentation":
+            raise RuntimeError("not support "+task_type)
+        lable= torch.as_tensor(data_samples['labels'][:,-1,:,:],dtype=torch.int64)
         # _, predicted = torch.max(x, 1)
         # predicted=predicted.to(torch.float16)[:,None,:,:]
         return F.cross_entropy(x, lable)
