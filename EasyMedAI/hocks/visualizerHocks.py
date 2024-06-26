@@ -11,6 +11,8 @@ from mmengine.hooks import Hook
 import mmengine
 from PIL import Image
 from EasyMedAI.enums import DataSetLoadType
+from mmengine.visualization import Visualizer
+import torch.nn.functional as F
 @HOOKS.register_module()
 class SegmentationVisHook(Hook):
 
@@ -27,13 +29,13 @@ class SegmentationVisHook(Hook):
         if batch_idx > self.vis_num:
             return
         
-        preds, data_samples = outputs
+        preds, data_samples,featmaps = outputs
         img_paths = data_samples['img_path']
         mask_paths = data_samples['mask_path']
         _, C, H, W = preds.shape
         preds = torch.argmax(preds, dim=1)
         for idx, (pred, img_path,
-                  mask_path,load_type) in enumerate(zip(preds, img_paths, mask_paths,data_samples["load_type"])):
+                  mask_path,load_type,featmap) in enumerate(zip(preds, img_paths, mask_paths,data_samples["load_type"],featmaps)):
             pred_mask = np.zeros((H, W, 3), dtype=np.uint8)
             if load_type==DataSetLoadType.Png.name:
                 image = cv2.imread(img_path)
@@ -63,11 +65,15 @@ class SegmentationVisHook(Hook):
             # Convert RGB to BGR
             pred_mask = runner.visualizer.get_image()[..., ::-1]
             gt_mask = cv2.addWeighted(image,1,gt_image,0.6,0)
-            c=np.vstack((image,gt_mask,pred_mask))
+            # featmap=F.interpolate(featmap,size=(image.shape[1],image.shape[0]), mode="bilinear", align_corners=True)
+            drawn_img =runner.visualizer.draw_featmap(featmap,overlaid_image=image,resize_shape=(image.shape[1],image.shape[0]), channel_reduction='select_max')
+            c=np.vstack((image,gt_mask,drawn_img,pred_mask))
             for name,backend in runner.visualizer._vis_backends.items():
                 # backend.add_image(f'pred_{osp.basename(img_path)}',image=pred_mask,step=runner.epoch)
+                # backend.add_image(f'{osp.basename(img_path)}_featmp',image=drawn_img,step=runner.epoch)
                 backend.add_image(f'{osp.basename(img_path)}',image=c,step=runner.epoch)
                 # backend.add_image(f'gt_{osp.basename(img_path)}',image=gt_mask,step=runner.epoch)
+            #drawn_img =runner.visualizer.draw_featmap(featmap, channel_reduction='select_max')
             # saved_dir = osp.join(runner.log_dir, 'val_vis_data', str(runner.epoch))
             # os.makedirs(saved_dir, exist_ok=True)
 

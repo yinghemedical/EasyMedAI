@@ -51,9 +51,9 @@ class conv_base_net(LvmBaseModel):
         self.metrics:list[BaseMetric]=[IoU]
         self.user_to_head=user_to_head
         self.model = nn.Sequential(
-            nn.Upsample(scale_factor=2),
+            # nn.Upsample(scale_factor=2),
             nn.Conv2d(embedding_size, 64, (3,3), padding=(1,1)),
-            nn.Upsample(scale_factor=2),
+            # nn.Upsample(scale_factor=2),
             nn.Conv2d(64, num_classes, (3,3), padding=(1,1)),
         )
     def lossFun(self,x,data_samples):
