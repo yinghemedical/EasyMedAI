@@ -7,8 +7,13 @@ from EasyMedAI.models.modelFactory import createTrainModel
 from torch.hub import load
 import medmnist 
 from medmnist import OrganAMNIST
-
+import torch
 from EasyMedAI.utils import create_color_to_class
+
+
+device = torch.device("cuda:1")
+torch.cuda.set_device(device)
+
 color_to_class=create_color_to_class([0,1])
 trainModel =createTrainModel("dinov2_s_pretrained",2,"conv_s")
 train_set= MSDDataSet("data/msd",subSetName=MSDSubSetType.Task09_Spleen,task_type=TaskType.Segmentation,dataset_type=DataSetType.train,transform=trainModel.transform_img,target_transform=trainModel.transform_lable)

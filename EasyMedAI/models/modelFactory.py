@@ -78,11 +78,11 @@ class MMModelInterface(BaseModel):
         self.metrics=self.model.metrics
         self.optim=self.model.optim
     def forward(self, imgs, data_samples=None, mode='tensor'):
-        x = self.model(imgs)
+        x,ft = self.model(imgs)
         if mode == 'loss':
             return {'loss': self.loss(x, data_samples)}
         elif mode == 'predict':
-            return x, data_samples 
+            return x, data_samples,ft
 class ModelInterface(LvmBaseModel):
     def __init__(self, backboneModle:LvmBaseModel,headModel:LvmBaseModel=None):
         super(ModelInterface, self).__init__(0,user_to_head=False)
@@ -106,9 +106,9 @@ class ModelInterface(LvmBaseModel):
             self.optim=self.backboneModle.optim
     def forward(self, imgs):
         if self.headModel:
-            x= self.backboneModle(imgs)
-            x= self.headModel(x)
-            return x
+            ft= self.backboneModle(imgs)
+            x= self.headModel(ft)
+            return x,ft
         else:
             x= self.backboneModle(imgs)
-            return x
+            return x,imgs
