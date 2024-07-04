@@ -26,8 +26,8 @@ class SegmentationVisHook(Hook):
                        batch_idx: int,
                        data_batch=None,
                        outputs=None) -> None:
-        if batch_idx > self.vis_num:
-            return
+        # if batch_idx > self.vis_num:
+        #     return
         
         preds, data_samples,featmaps = outputs
         img_paths = data_samples['img_path']
@@ -36,18 +36,20 @@ class SegmentationVisHook(Hook):
         preds = torch.argmax(preds, dim=1)
         for idx, (pred, img_path,
                   mask_path,load_type,featmap) in enumerate(zip(preds, img_paths, mask_paths,data_samples["load_type"],featmaps)):
-            pred_mask = np.zeros((H, W, 3), dtype=np.uint8)
+            # pred_mask = np.zeros((H, W, 3), dtype=np.uint8)
+            
             if load_type==DataSetLoadType.Png.name:
                 image = cv2.imread(img_path)
                 gt_mask= np.load(mask_path)
                 # gt_mask=Image.fromarray(gt_mask)
                 gt_image=cv2.cvtColor(gt_mask,cv2.COLOR_GRAY2BGR)
+                gt_image=cv2.resize(gt_image,(image.shape[1],image.shape[0]))
                 for color, class_id in self.color_to_class.items():
                     tp=gt_mask == class_id
                     gt_image[:,:,0][tp]=color[2]
                     gt_image[:,:,1][tp]=color[1]
                     gt_image[:,:,2][tp]=color[0]
-                gt_image=cv2.resize(gt_image,(image.shape[1],image.shape[0]))
+                
             # image=cv2.resize(image,(W,H))
             # image = image.resize((H,W))
             runner.visualizer.set_image(image)
@@ -66,7 +68,7 @@ class SegmentationVisHook(Hook):
             pred_mask = runner.visualizer.get_image()[..., ::-1]
             gt_mask = cv2.addWeighted(image,1,gt_image,0.6,0)
             # featmap=F.interpolate(featmap,size=(image.shape[1],image.shape[0]), mode="bilinear", align_corners=True)
-            drawn_img =runner.visualizer.draw_featmap(featmap,overlaid_image=image,resize_shape=(image.shape[1],image.shape[0]), channel_reduction='select_max')
+            drawn_img =runner.visualizer.draw_featmap(featmap,overlaid_image=image,resize_shape=(image.shape[1],image.shape[0]), channel_reduction='select_max',alpha=0.8)
             c=np.vstack((image,gt_mask,drawn_img,pred_mask))
             for name,backend in runner.visualizer._vis_backends.items():
                 # backend.add_image(f'pred_{osp.basename(img_path)}',image=pred_mask,step=runner.epoch)

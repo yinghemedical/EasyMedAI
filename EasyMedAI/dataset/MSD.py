@@ -41,13 +41,14 @@ class MSDDataSet(datasetBase):
                  target_transform=None,
                  load_type:DataSetLoadType= DataSetLoadType.Png,
                  task_type:TaskType =TaskType.Segmentation,
-                 dataset_type:DataSetType= DataSetType.train
+                 dataset_type:DataSetType= DataSetType.train,
+                 name=""
                  ):
         super().__init__(
-            root, transform=transform, target_transform=target_transform,load_type=load_type,task_type=task_type)
+            root, transform=transform, target_transform=target_transform,load_type=load_type,task_type=task_type,name="")
         self.subSetName=subSetName.value
         self.dataset_type=dataset_type
-       
+        self.name="MSD_"+self.subSetName
         self.original_name=self.subSetName+".tar"
         if not os.path.exists(os.path.join(self.root, self.subSetName)):
             os.makedirs(os.path.join(self.root, self.subSetName))
@@ -103,7 +104,11 @@ class MSDDataSet(datasetBase):
         # self.masks = list(
         #     sorted(os.listdir(self.mask_folder),key=lambda x: int(x.replace('.npy',''))))
     def getLable(self,index):
-        return np.load(os.path.join(self.mask_folder,self.masks[index]))
+        lable=np.load(os.path.join(self.mask_folder,self.masks[index]))
+        if lable.max==0:
+            print(lable.max)
+            pass
+        return lable
     def convertPngDataSet(self,dataList,originalFolder):
         i=0
         subDataSetInfo=[]

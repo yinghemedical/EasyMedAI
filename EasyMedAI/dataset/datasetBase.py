@@ -23,6 +23,7 @@ class datasetBase(VisionDataset):
                  target_transform=None,
                  load_type= DataSetLoadType.Png,
                  task_type =TaskType.Segmentation,
+                 name="",
                  ):
         super().__init__(
             root, transform=transform, target_transform=target_transform)
@@ -33,6 +34,7 @@ class datasetBase(VisionDataset):
         self.masks = None
         self.load_type=load_type
         self.task_type=task_type
+        self.name=name
         # self.color_to_class = create_color_to_class(class_list)
     def getLable(self,index):
         raise NotImplementedError()
