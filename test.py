@@ -15,7 +15,7 @@ device = torch.device("cuda:1")
 torch.cuda.set_device(device)
 
 color_to_class=create_color_to_class([0,1])
-trainModel =createTrainModel("dinov2_s_pretrained",2,"conv_s")
+trainModel =createTrainModel("dinov2_s_pretrained",2,"resnet50")
 train_set= MSDDataSet("data/msd",subSetName=MSDSubSetType.Task09_Spleen,task_type=TaskType.Segmentation,dataset_type=DataSetType.train,transform=trainModel.transform_img,target_transform=trainModel.transform_lable)
 valid_set= MSDDataSet("data/msd",subSetName=MSDSubSetType.Task09_Spleen,task_type=TaskType.Segmentation,dataset_type=DataSetType.val,transform=trainModel.transform_img,target_transform=trainModel.transform_lable)
 
@@ -52,10 +52,10 @@ valid_set= MSDDataSet("data/msd",subSetName=MSDSubSetType.Task09_Spleen,task_typ
 
 
 from EasyMedAI.trainClass.train import TrainTool
-# trainModel.optim["lr"]=0.001
+trainModel.optim["lr"]=0.0005
 trainProcess=TrainTool()
 trainProcess.startTrain(trainModel,
                         train_set,
                         valid_set,
-                        batch_size=12,
+                        batch_size=4,
                         color_to_class=color_to_class,max_epochs=20)
