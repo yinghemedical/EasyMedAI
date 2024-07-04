@@ -6,11 +6,13 @@ from torch.optim import AdamW,Adam
 import torch.nn.functional as F
 from torch.hub import load
 import torch.nn as nn
+
 class IoU(BaseMetric):
     def __init__(self, collect_device: str = 'cpu', prefix: str  = "t", collect_dir: str  = None) -> None:
         super().__init__(collect_device, prefix, collect_dir)
     def process(self, data_batch, data_samples):
         preds, labels = data_samples[0], data_samples[1]['labels']
+        preds=F.interpolate(preds,size=(labels.shape[2],labels.shape[3]), mode='bilinear')
         preds = torch.argmax(preds, dim=1)
         intersect = (labels == preds).sum()
         union = (torch.logical_or(preds, labels)).sum()
@@ -51,22 +53,27 @@ class conv_base_net(LvmBaseModel):
         self.metrics:list[BaseMetric]=[IoU]
         self.user_to_head=user_to_head
         self.model = nn.Sequential(
-            # nn.Upsample(scale_factor=2),
-            nn.Conv2d(embedding_size, 64, (3,3), padding=(1,1)),
-            # nn.Upsample(scale_factor=2),
-            nn.Conv2d(64, num_classes, (3,3), padding=(1,1)),
+            nn.Upsample(scale_factor=2),
+            nn.Conv2d(3, 3, (3,3), padding=(1,1)),
+            nn.Upsample(scale_factor=2),
+            nn.Conv2d(3, num_classes, (3,3), padding=(1,1)),
+            # nn.MaxPool2d((4,4),stride=4,padding=(1,1))
         )
     def lossFun(self,x,data_samples):
         task_type=data_samples["task_type"][0]
         if task_type != "Segmentation":
             raise RuntimeError("not support "+task_type)
         lable= torch.as_tensor(data_samples['labels'][:,-1,:,:],dtype=torch.int64)
+        x=F.interpolate(x,size=(lable.shape[1],lable.shape[2]), mode='bilinear')
+        # lable=F.upsample(lable,(x.shape[2],x.shape[3]))
         # _, predicted = torch.max(x, 1)
         # predicted=predicted.to(torch.float16)[:,None,:,:]
         return F.cross_entropy(x, lable)
     def forward(self, x):
+        # szie=(x.shape(2),x.shape(3))
         x = self.model(x)
         # x = x.to(torch.float32)
         x = torch.sigmoid(x)
+        
         # _, predicted = torch.max(x, 1)
         return x

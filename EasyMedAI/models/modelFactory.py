@@ -1,11 +1,14 @@
 from mmengine.model import BaseModel
 
-from EasyMedAI.models.lvmModels.dinov2 import dinov2_s_pretrained
+from EasyMedAI.models.lvmModels.dinov2 import dinov2_s_pretrained,dinov2_b_pretrained
 from EasyMedAI.models.segmentation.conv import conv_s
-from EasyMedAI.models.segmentation.deeplabv3_resnet50 import Resnet50_pretrained
+from EasyMedAI.models.segmentation.deeplabv3_resnet50 import resnet50,resnet50_pretrained
 import torch
-modesConfig={"deeplabv3_resnet50_pretrained":{"class":Resnet50_pretrained,"useBockbone":True,"useHead":True},
+modesConfig={"deeplabv3_resnet50_pretrained":{"class":resnet50_pretrained,"useBockbone":True,"useHead":True},
+             "resnet50":{"class":resnet50,"useBockbone":True,"useHead":True},
              "dinov2_s_pretrained":{"class":dinov2_s_pretrained,"useBockbone":True,"useHead":False},
+              "dinov2_b_pretrained":{"class":dinov2_b_pretrained,"useBockbone":True,"useHead":False},
+             
             "conv_s":{"class":conv_s,"useBockbone":False,"useHead":True},
              
              }
@@ -18,12 +21,14 @@ def createTrainModel(backboneModle:str,num_classes:int,headModel:str=None,backbo
     if headModel:
         backboneModleConfig=modesConfig[backboneModle]
         headModelConfig=modesConfig[headModel]
-        return createCusTrainModel(backboneModleConfig["class"],num_classes,headModel=headModelConfig["class"])
+        modelName=backboneModle+"_"+headModel
+        return createCusTrainModel(backboneModleConfig["class"],num_classes,headModel=headModelConfig["class"],modelName=modelName)
     else:
         backboneModleConfig=modesConfig[backboneModle]
-        return createCusTrainModel(backboneModleConfig["class"],num_classes)
+        modelName=backboneModle
+        return createCusTrainModel(backboneModleConfig["class"],num_classes,modelName=modelName)
 
-def createCusTrainModel(backboneModle:type[LvmBaseModel],num_classes:int,headModel:type[LvmBaseModel]=None):
+def createCusTrainModel(backboneModle:type[LvmBaseModel],num_classes:int,headModel:type[LvmBaseModel]=None,modelName=""):
     """
     create Train Model by  class
     """
@@ -31,10 +36,10 @@ def createCusTrainModel(backboneModle:type[LvmBaseModel],num_classes:int,headMod
         mModel= backboneModle(num_classes,user_to_head=False)
         mModel=mModel.eval()
         sModel= headModel(num_classes,user_to_head=True)
-        return MMModelInterface(ModelInterface(mModel,sModel))
+        return MMModelInterface(ModelInterface(mModel,sModel),modelName=modelName)
     else:
         mModel= backboneModle(num_classes,user_to_head=False)
-        return MMModelInterface(ModelInterface(mModel))
+        return MMModelInterface(ModelInterface(mModel),modelName=modelName)
 def createInferModel(backboneModle:str,num_classes:int,headModel:str=None,backboneModlePertrained:str=None,headModlePertrained:str=None):
     """
     create Infer Model by  Name
@@ -67,11 +72,12 @@ def createCusInferModel(backboneModle:type[LvmBaseModel],num_classes:int,headMod
         model.eval()
         return model
 class MMModelInterface(BaseModel):
-    def __init__(self, model:LvmBaseModel):
+    def __init__(self, model:LvmBaseModel,modelName=""):
         super(MMModelInterface, self).__init__()
         self.loss=model.lossFun
         self.num_classes = model.num_classes
         self.model=model
+        self.modelName=modelName
         # self.model.load_state_dict()
         self.transform_img=self.model.transform_img
         self.transform_lable=self.model.transform_lable
@@ -96,7 +102,8 @@ class ModelInterface(LvmBaseModel):
         self.headModel=headModel
         if headModel:
             self.transform_img=self.backboneModle.transform_img
-            self.transform_lable=self.backboneModle.transform_lable
+            #使用Head的lable转换
+            self.transform_lable=self.headModel.transform_lable
             self.metrics=self.headModel.metrics
             self.optim=self.headModel.optim
         else:

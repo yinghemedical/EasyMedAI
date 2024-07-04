@@ -165,3 +165,4 @@ train_work_dir/
 trainlogs/
 *.pth
 .aim/
+.easymedai_pretrained_models/
