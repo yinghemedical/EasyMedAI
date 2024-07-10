@@ -1,14 +1,17 @@
 from mmengine.model import BaseModel
 
-from EasyMedAI.models.lvmModels.dinov2 import dinov2_s_pretrained,dinov2_b_pretrained
+from EasyMedAI.models.lvmModels.dinov2.models import dinov2_s_pretrained,dinov2_b_pretrained
+from EasyMedAI.models.lvmModels.sam.models import sam_b,sam_l,sam_h
 from EasyMedAI.models.segmentation.conv import conv_s
-from EasyMedAI.models.segmentation.deeplabv3_resnet50 import resnet50,resnet50_pretrained
+from EasyMedAI.models.segmentation.resnet50.models import resnet50,resnet50_pretrained
 import torch
 modesConfig={"deeplabv3_resnet50_pretrained":{"class":resnet50_pretrained,"useBockbone":True,"useHead":True},
              "resnet50":{"class":resnet50,"useBockbone":True,"useHead":True},
              "dinov2_s_pretrained":{"class":dinov2_s_pretrained,"useBockbone":True,"useHead":False},
               "dinov2_b_pretrained":{"class":dinov2_b_pretrained,"useBockbone":True,"useHead":False},
-             
+             "sam_vit_b_pretrained":{"class":sam_b,"useBockbone":True,"useHead":False},
+             "sam_vit_l_pretrained":{"class":sam_l,"useBockbone":True,"useHead":False},
+             "sam_vit_h_pretrained":{"class":sam_h,"useBockbone":True,"useHead":False},
             "conv_s":{"class":conv_s,"useBockbone":False,"useHead":True},
              
              }
