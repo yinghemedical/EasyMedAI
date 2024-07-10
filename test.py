@@ -11,11 +11,11 @@ import torch
 from EasyMedAI.utils import create_color_to_class
 
 
-device = torch.device("cuda:1")
+device = torch.device("cuda:0")
 torch.cuda.set_device(device)
 
 color_to_class=create_color_to_class([0,1])
-trainModel =createTrainModel("dinov2_s_pretrained",2,"resnet50")
+trainModel =createTrainModel("sam_vit_l_pretrained",2,"resnet50")
 train_set= MSDDataSet("data/msd",subSetName=MSDSubSetType.Task09_Spleen,task_type=TaskType.Segmentation,dataset_type=DataSetType.train,transform=trainModel.transform_img,target_transform=trainModel.transform_lable)
 valid_set= MSDDataSet("data/msd",subSetName=MSDSubSetType.Task09_Spleen,task_type=TaskType.Segmentation,dataset_type=DataSetType.val,transform=trainModel.transform_img,target_transform=trainModel.transform_lable)
 
@@ -57,5 +57,5 @@ trainProcess=TrainTool()
 trainProcess.startTrain(trainModel,
                         train_set,
                         valid_set,
-                        batch_size=4,
-                        color_to_class=color_to_class,max_epochs=20)
+                        batch_size=2,
+                        color_to_class=color_to_class,max_epochs=100)

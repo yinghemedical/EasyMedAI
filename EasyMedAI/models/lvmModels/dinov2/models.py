@@ -17,7 +17,7 @@ import os
 # from mmseg.models.decode_heads.decode_head import BaseDecodeHead
 # from mmseg.apis import init_segmentor, inference_segmentor
 # from mmcv.utils import Registry
-from EasyMedAI.models.lvmModels.mmops import resize
+from ..mmops import resize
 class IoU(BaseMetric):
     def __init__(self, collect_device: str = 'cpu', prefix: str  = "t", collect_dir: str  = None) -> None:
         super().__init__(collect_device, prefix, collect_dir)
