@@ -1,13 +1,17 @@
 import os
+import cv2
 import numpy as np
 import torch
 from EasyMedAI.models.baseModels.base import LvmBaseModel
+from EasyMedAI.models.lvmModels.SAM_Med2D.segment_anything.predictor_sammed import SammedPredictor
 from EasyMedAI.models.lvmModels.mmops import resize
 from .segment_anything.build_sam import _build_sam
 from .segment_anything.modeling.common import LayerNorm2d
 from .segment_anything.utils.transforms import ResizeLongestSide
 from .segment_anything.modeling.sam import Sam
 import torchvision.transforms as transforms
+from albumentations.pytorch import ToTensorV2
+import albumentations as A
 import torch.nn as nn
 from typing import List, Tuple, Type
 from .segment_anything import build_sam_vit_b,build_sam_vit_l,build_sam_vit_h
@@ -17,8 +21,8 @@ sam_configs={
         "encoder_depth":12,
         "encoder_num_heads":12,
         "encoder_global_attn_indexes":[2, 5, 8, 11],
-        "checkpoint":"sam_vit_b_01ec64.pth",
-        "download_url":"https://dl.fbaipublicfiles.com/segment_anything/sam_vit_b_01ec64.pth"
+        "checkpoint":"sam-med2d_b.pth",
+        "download_url":"https://drive.google.com/file/d/1ARiB5RkSsWmAB_8mqWnwDF8ZKTtFwsjl/view"
     },
     "vit_l":{
         "encoder_embed_dim":1024,
@@ -39,13 +43,13 @@ sam_configs={
 }
 checkpoint_root=os.environ.get('easymedai_pretrained_models')
 if checkpoint_root == None:
-    checkpoint_root='./easymedai_pretrained_models/sam'
+    checkpoint_root='./easymedai_pretrained_models/SAM_Med2D'
 else:
-    checkpoint_root=checkpoint_root+"/sam"
-class sam_base(LvmBaseModel):
+    checkpoint_root=checkpoint_root+"/SAM_Med2D"
+class sam_med2d_base(LvmBaseModel):
     def __init__(self,model_name, num_classes,user_to_head:bool=True):
-        super(sam_base, self).__init__(num_classes,user_to_head)
-        self.image_size=1024
+        super(sam_med2d_base, self).__init__(num_classes,user_to_head)
+        self.image_size=256
         if user_to_head:
             raise RuntimeError(
             f"""
@@ -59,13 +63,14 @@ class sam_base(LvmBaseModel):
             raise RuntimeError(
             f"""
             Automatic download failed! Please download sam pretrained model manually.
-            1. Go to {model_config["download_url"]}  Download file and put under your sam model root folder: 
+            1. Go to {model_config["download_url"]}  Download file '{model_config["checkpoint"]}' and put under your sam model root folder: 
             {checkpoint_root} 
             """
             )
-        self.transform_img= transforms.Compose([
+       
+        self.transform_img=  transforms.Compose([
             transforms.ToTensor(),
-            transforms.Resize((self.image_size,self.image_size)),
+            # transforms.Resize((self.image_size,self.image_size)),
         ])
         self.transform_lable= transforms.Compose([
             transforms.ToTensor(),
@@ -76,10 +81,12 @@ class sam_base(LvmBaseModel):
         encoder_depth=model_config["encoder_depth"],
         encoder_num_heads=model_config["encoder_num_heads"],
         encoder_global_attn_indexes=model_config["encoder_global_attn_indexes"],
+        image_size=self.image_size,
         checkpoint=checkpoint_path,
+        encoder_adapter=False
     )
         # build_sam_vit_b(checkpoint=checkpoint_path)
-        self.transform= ResizeLongestSide(self.model.image_encoder.img_size)
+        self.transform= self.create_transforms((self.model.image_encoder.img_size,self.model.image_encoder.img_size))
         self.decoder=nn.Sequential(
             nn.ConvTranspose2d(self.model.image_encoder.out_chans, self.model.image_encoder.out_chans // 4, kernel_size=2, stride=2),
             LayerNorm2d(self.model.image_encoder.out_chans // 4),
@@ -105,6 +112,13 @@ class sam_base(LvmBaseModel):
         #     nn.GELU(),
         # )
         self.align_corners=False
+    
+    def create_transforms(self, new_size):
+        Transforms = []
+        new_h, new_w = new_size
+        Transforms.append(A.Resize(int(new_h), int(new_w), interpolation=cv2.INTER_NEAREST))
+        Transforms.append(ToTensorV2(p=1.0))
+        return A.Compose(Transforms, p=1.)
     #sam 默认解码器
     def decoderfeatures(self,image_embeddings,x):
         image_pe = self.model.prompt_encoder.get_dense_pe()
@@ -136,18 +150,33 @@ class sam_base(LvmBaseModel):
         return self.decoder(image_embeddings)
     def forward(self, x):
         with torch.no_grad():
-            transformed_image = self.transform.apply_image_torch(x)
-            input_image = self.model.preprocess(transformed_image)
-            image_embeddings = self.model.image_encoder(input_image)
+            # img_1024 = (img_1024 - img_1024.min()) / np.clip(
+            #     img_1024.max() - img_1024.min(), a_min=1e-8, a_max=None
+            # ) 
+            # x=(x-torch.min(x))/torch.clip(torch.max(x)-torch.min(x),min=1e-8,max=None)
+            # transformed_image = self.transform.apply_image_torch(x)
+            # input_image = self.model.preprocess(transformed_image)
+             # Transform the image to the form expected by the model
+            x= self.model.preprocess(x)
+            x = x.permute(0,2,3,1)
+            images=[]
+            for b in range(x.shape[0]):
+                image=x[b].cpu().numpy()
+                image =self.transform(image=image)
+                image = torch.as_tensor(image["image"],device=self.model.device)
+                images.append(image)
+            images=torch.stack(images, dim=0)
+            # images= self.model.preprocess(images)
+            image_embeddings = self.model.image_encoder(images)
         features=self.decoderfeatures2(image_embeddings)
         
         return features
-class sam_b(sam_base):
+class sam_med2d_b(sam_med2d_base):
     def __init__(self,num_classes,user_to_head:bool=True):
-         super(sam_b, self).__init__("vit_b",num_classes,user_to_head)
-class sam_l(sam_base):
-    def __init__(self,num_classes,user_to_head:bool=True):
-         super(sam_l, self).__init__("vit_l",num_classes,user_to_head)
-class sam_h(sam_base):
-    def __init__(self,num_classes,user_to_head:bool=True):
-         super(sam_h, self).__init__("vit_h",num_classes,user_to_head)
+         super(sam_med2d_b, self).__init__("vit_b",num_classes,user_to_head)
+# class sam_l(sam_base):
+#     def __init__(self,num_classes,user_to_head:bool=True):
+#          super(sam_l, self).__init__("vit_l",num_classes,user_to_head)
+# class sam_h(sam_base):
+#     def __init__(self,num_classes,user_to_head:bool=True):
+#          super(sam_h, self).__init__("vit_h",num_classes,user_to_head)

@@ -1,0 +1,357 @@
+nohup: 忽略输入
+ERROR:albumentations.check_version:Error fetching version info
+Traceback (most recent call last):
+  File "/home/botao/anaconda3/envs/LVMWorkFlow/lib/python3.9/urllib/request.py", line 1342, in do_open
+    h.request(req.get_method(), req.selector, req.data, headers,
+  File "/home/botao/anaconda3/envs/LVMWorkFlow/lib/python3.9/http/client.py", line 1255, in request
+    self._send_request(method, url, body, headers, encode_chunked)
+  File "/home/botao/anaconda3/envs/LVMWorkFlow/lib/python3.9/http/client.py", line 1301, in _send_request
+    self.endheaders(body, encode_chunked=encode_chunked)
+  File "/home/botao/anaconda3/envs/LVMWorkFlow/lib/python3.9/http/client.py", line 1250, in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+  File "/home/botao/anaconda3/envs/LVMWorkFlow/lib/python3.9/http/client.py", line 1010, in _send_output
+    self.send(msg)
+  File "/home/botao/anaconda3/envs/LVMWorkFlow/lib/python3.9/http/client.py", line 950, in send
+    self.connect()
+  File "/home/botao/anaconda3/envs/LVMWorkFlow/lib/python3.9/http/client.py", line 1424, in connect
+    self.sock = self._context.wrap_socket(self.sock,
+  File "/home/botao/anaconda3/envs/LVMWorkFlow/lib/python3.9/ssl.py", line 500, in wrap_socket
+    return self.sslsocket_class._create(
+  File "/home/botao/anaconda3/envs/LVMWorkFlow/lib/python3.9/ssl.py", line 1040, in _create
+    self.do_handshake()
+  File "/home/botao/anaconda3/envs/LVMWorkFlow/lib/python3.9/ssl.py", line 1309, in do_handshake
+    self._sslobj.do_handshake()
+socket.timeout: _ssl.c:1105: The handshake operation timed out
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/botao/anaconda3/envs/LVMWorkFlow/lib/python3.9/site-packages/albumentations/check_version.py", line 29, in fetch_version_info
+    with opener.open(url, timeout=2) as response:
+  File "/home/botao/anaconda3/envs/LVMWorkFlow/lib/python3.9/urllib/request.py", line 517, in open
+    response = self._open(req, data)
+  File "/home/botao/anaconda3/envs/LVMWorkFlow/lib/python3.9/urllib/request.py", line 534, in _open
+    result = self._call_chain(self.handle_open, protocol, protocol +
+  File "/home/botao/anaconda3/envs/LVMWorkFlow/lib/python3.9/urllib/request.py", line 494, in _call_chain
+    result = func(*args)
+  File "/home/botao/anaconda3/envs/LVMWorkFlow/lib/python3.9/urllib/request.py", line 1385, in https_open
+    return self.do_open(http.client.HTTPSConnection, req,
+  File "/home/botao/anaconda3/envs/LVMWorkFlow/lib/python3.9/urllib/request.py", line 1345, in do_open
+    raise URLError(err)
+urllib.error.URLError: <urlopen error _ssl.c:1105: The handshake operation timed out>
+07/15 18:32:44 - mmengine - INFO - 
+------------------------------------------------------------
+System environment:
+    sys.platform: linux
+    Python: 3.9.0 (default, Nov 15 2020, 14:28:56) [GCC 7.3.0]
+    CUDA available: True
+    MUSA available: False
+    numpy_random_seed: 751583033
+    GPU 0: NVIDIA RTX A4000
+    GPU 1: NVIDIA GeForce RTX 2080 Ti
+    CUDA_HOME: /usr/local/cuda-11.6
+    NVCC: Cuda compilation tools, release 11.6, V11.6.55
+    GCC: gcc (Ubuntu 7.5.0-6ubuntu2) 7.5.0
+    PyTorch: 2.1.2+cu118
+    PyTorch compiling details: PyTorch built with:
+  - GCC 9.3
+  - C++ Version: 201703
+  - Intel(R) oneAPI Math Kernel Library Version 2022.2-Product Build 20220804 for Intel(R) 64 architecture applications
+  - Intel(R) MKL-DNN v3.1.1 (Git Hash 64f6bcbcbab628e96f33a62c3e975f8535a7bde4)
+  - OpenMP 201511 (a.k.a. OpenMP 4.5)
+  - LAPACK is enabled (usually provided by MKL)
+  - NNPACK is enabled
+  - CPU capability usage: AVX2
+  - CUDA Runtime 11.8
+  - NVCC architecture flags: -gencode;arch=compute_50,code=sm_50;-gencode;arch=compute_60,code=sm_60;-gencode;arch=compute_70,code=sm_70;-gencode;arch=compute_75,code=sm_75;-gencode;arch=compute_80,code=sm_80;-gencode;arch=compute_86,code=sm_86;-gencode;arch=compute_37,code=sm_37;-gencode;arch=compute_90,code=sm_90
+  - CuDNN 8.7
+  - Magma 2.6.1
+  - Build settings: BLAS_INFO=mkl, BUILD_TYPE=Release, CUDA_VERSION=11.8, CUDNN_VERSION=8.7.0, CXX_COMPILER=/opt/rh/devtoolset-9/root/usr/bin/c++, CXX_FLAGS= -D_GLIBCXX_USE_CXX11_ABI=0 -fabi-version=11 -fvisibility-inlines-hidden -DUSE_PTHREADPOOL -DNDEBUG -DUSE_KINETO -DLIBKINETO_NOROCTRACER -DUSE_FBGEMM -DUSE_QNNPACK -DUSE_PYTORCH_QNNPACK -DUSE_XNNPACK -DSYMBOLICATE_MOBILE_DEBUG_HANDLE -O2 -fPIC -Wall -Wextra -Werror=return-type -Werror=non-virtual-dtor -Werror=bool-operation -Wnarrowing -Wno-missing-field-initializers -Wno-type-limits -Wno-array-bounds -Wno-unknown-pragmas -Wno-unused-parameter -Wno-unused-function -Wno-unused-result -Wno-strict-overflow -Wno-strict-aliasing -Wno-stringop-overflow -Wno-psabi -Wno-error=pedantic -Wno-error=old-style-cast -Wno-invalid-partial-specialization -Wno-unused-private-field -Wno-aligned-allocation-unavailable -Wno-missing-braces -fdiagnostics-color=always -faligned-new -Wno-unused-but-set-variable -Wno-maybe-uninitialized -fno-math-errno -fno-trapping-math -Werror=format -Werror=cast-function-type -Wno-stringop-overflow, LAPACK_INFO=mkl, PERF_WITH_AVX=1, PERF_WITH_AVX2=1, PERF_WITH_AVX512=1, TORCH_DISABLE_GPU_ASSERTS=ON, TORCH_VERSION=2.1.2, USE_CUDA=ON, USE_CUDNN=ON, USE_EXCEPTION_PTR=1, USE_GFLAGS=OFF, USE_GLOG=OFF, USE_MKL=ON, USE_MKLDNN=ON, USE_MPI=OFF, USE_NCCL=1, USE_NNPACK=ON, USE_OPENMP=ON, USE_ROCM=OFF, 
+
+    TorchVision: 0.16.2+cu118
+    OpenCV: 4.10.0
+    MMEngine: 0.10.4
+
+Runtime environment:
+    dist_cfg: {'backend': 'nccl'}
+    seed: 751583033
+    Distributed launcher: none
+    Distributed training: False
+    GPU number: 1
+------------------------------------------------------------
+
+07/15 18:32:45 - mmengine - INFO - Distributed training is not used, all SyncBatchNorm (SyncBN) layers in the model will be automatically reverted to BatchNormXd layers if they are used.
+07/15 18:32:45 - mmengine - INFO - Hooks will be executed in the following order:
+before_run:
+(VERY_HIGH   ) RuntimeInfoHook                    
+(BELOW_NORMAL) LoggerHook                         
+ -------------------- 
+before_train:
+(VERY_HIGH   ) RuntimeInfoHook                    
+(NORMAL      ) IterTimerHook                      
+(VERY_LOW    ) CheckpointHook                     
+ -------------------- 
+before_train_epoch:
+(VERY_HIGH   ) RuntimeInfoHook                    
+(NORMAL      ) IterTimerHook                      
+(NORMAL      ) DistSamplerSeedHook                
+ -------------------- 
+before_train_iter:
+(VERY_HIGH   ) RuntimeInfoHook                    
+(NORMAL      ) IterTimerHook                      
+ -------------------- 
+after_train_iter:
+(VERY_HIGH   ) RuntimeInfoHook                    
+(NORMAL      ) IterTimerHook                      
+(BELOW_NORMAL) LoggerHook                         
+(LOW         ) ParamSchedulerHook                 
+(VERY_LOW    ) CheckpointHook                     
+ -------------------- 
+after_train_epoch:
+(NORMAL      ) IterTimerHook                      
+(LOW         ) ParamSchedulerHook                 
+(VERY_LOW    ) CheckpointHook                     
+ -------------------- 
+before_val:
+(VERY_HIGH   ) RuntimeInfoHook                    
+ -------------------- 
+before_val_epoch:
+(NORMAL      ) IterTimerHook                      
+ -------------------- 
+before_val_iter:
+(NORMAL      ) IterTimerHook                      
+ -------------------- 
+after_val_iter:
+(NORMAL      ) IterTimerHook                      
+(NORMAL      ) SegmentationVisHook                
+(BELOW_NORMAL) LoggerHook                         
+ -------------------- 
+after_val_epoch:
+(VERY_HIGH   ) RuntimeInfoHook                    
+(NORMAL      ) IterTimerHook                      
+(BELOW_NORMAL) LoggerHook                         
+(LOW         ) ParamSchedulerHook                 
+(VERY_LOW    ) CheckpointHook                     
+ -------------------- 
+after_val:
+(VERY_HIGH   ) RuntimeInfoHook                    
+ -------------------- 
+after_train:
+(VERY_HIGH   ) RuntimeInfoHook                    
+(VERY_LOW    ) CheckpointHook                     
+ -------------------- 
+before_test:
+(VERY_HIGH   ) RuntimeInfoHook                    
+ -------------------- 
+before_test_epoch:
+(NORMAL      ) IterTimerHook                      
+ -------------------- 
+before_test_iter:
+(NORMAL      ) IterTimerHook                      
+ -------------------- 
+after_test_iter:
+(NORMAL      ) IterTimerHook                      
+(BELOW_NORMAL) LoggerHook                         
+ -------------------- 
+after_test_epoch:
+(VERY_HIGH   ) RuntimeInfoHook                    
+(NORMAL      ) IterTimerHook                      
+(BELOW_NORMAL) LoggerHook                         
+ -------------------- 
+after_test:
+(VERY_HIGH   ) RuntimeInfoHook                    
+ -------------------- 
+after_run:
+(BELOW_NORMAL) LoggerHook                         
+ -------------------- 
+07/15 18:32:45 - EasyMedAI - WARNING - Dataset MSDDataSet has no metainfo. ``dataset_meta`` in visualizer will be None.
+07/15 18:32:45 - EasyMedAI - WARNING - Dataset MSDDataSet has no metainfo. ``dataset_meta`` in evaluator, metric and visualizer will be None.
+07/15 18:32:45 - EasyMedAI - WARNING - "FileClient" will be deprecated in future. Please use io functions in https://mmengine.readthedocs.io/en/latest/api/fileio.html#file-io
+07/15 18:32:45 - EasyMedAI - WARNING - "HardDiskBackend" is the alias of "LocalBackend" and the former will be deprecated in future.
+07/15 18:32:45 - EasyMedAI - INFO - Checkpoints will be saved to /mnt/sdc2/liangjun/projects/liangjun/EasyMedAI/train_work_dir/medsam_vit_b_pretrained_resnet50_MSD_Task09_Spleen.
+07/15 18:32:49 - EasyMedAI - INFO - Epoch(train)   [1][ 10/424]  lr: 5.0000e-04  eta: 4:40:12  time: 0.3966  data_time: 0.0211  memory: 3489  loss: 0.9447
+INFO:aim.sdk.reporter:creating RunStatusReporter for 9f8341119c554ac09907dd3f
+INFO:aim.sdk.reporter:starting from: {}
+INFO:aim.sdk.reporter:starting writer thread for <aim.sdk.reporter.RunStatusReporter object at 0x7f81468e7220>
+07/15 18:32:53 - EasyMedAI - INFO - Epoch(train)   [1][ 20/424]  lr: 5.0000e-04  eta: 4:08:39  time: 0.3521  data_time: 0.0545  memory: 3489  loss: 0.9305
+07/15 18:32:55 - EasyMedAI - INFO - Epoch(train)   [1][ 30/424]  lr: 5.0000e-04  eta: 3:42:29  time: 0.3151  data_time: 0.0429  memory: 3489  loss: 0.9167
+07/15 18:32:57 - EasyMedAI - INFO - Epoch(train)   [1][ 40/424]  lr: 5.0000e-04  eta: 3:29:30  time: 0.2968  data_time: 0.0370  memory: 3489  loss: 0.9099
+07/15 18:33:00 - EasyMedAI - INFO - Epoch(train)   [1][ 50/424]  lr: 5.0000e-04  eta: 3:21:45  time: 0.2858  data_time: 0.0335  memory: 3489  loss: 0.8857
+07/15 18:33:02 - EasyMedAI - INFO - Epoch(train)   [1][ 60/424]  lr: 5.0000e-04  eta: 3:16:24  time: 0.2783  data_time: 0.0312  memory: 3489  loss: 0.8664
+07/15 18:33:05 - EasyMedAI - INFO - Epoch(train)   [1][ 70/424]  lr: 5.0000e-04  eta: 3:12:48  time: 0.2733  data_time: 0.0295  memory: 3489  loss: 0.8529
+07/15 18:33:07 - EasyMedAI - INFO - Epoch(train)   [1][ 80/424]  lr: 5.0000e-04  eta: 3:10:06  time: 0.2695  data_time: 0.0282  memory: 3489  loss: 0.8362
+07/15 18:33:09 - EasyMedAI - INFO - Epoch(train)   [1][ 90/424]  lr: 5.0000e-04  eta: 3:08:03  time: 0.2667  data_time: 0.0272  memory: 3489  loss: 0.8163
+07/15 18:33:12 - EasyMedAI - INFO - Epoch(train)   [1][100/424]  lr: 5.0000e-04  eta: 3:06:26  time: 0.2645  data_time: 0.0265  memory: 3489  loss: 0.7993
+07/15 18:33:14 - EasyMedAI - INFO - Epoch(train)   [1][110/424]  lr: 5.0000e-04  eta: 3:05:07  time: 0.2492  data_time: 0.0263  memory: 3489  loss: 0.7705
+07/15 18:33:17 - EasyMedAI - INFO - Epoch(train)   [1][120/424]  lr: 5.0000e-04  eta: 3:04:01  time: 0.2430  data_time: 0.0194  memory: 3489  loss: 0.7435
+07/15 18:33:19 - EasyMedAI - INFO - Epoch(train)   [1][130/424]  lr: 5.0000e-04  eta: 3:03:06  time: 0.2434  data_time: 0.0194  memory: 3489  loss: 0.7221
+07/15 18:33:22 - EasyMedAI - INFO - Epoch(train)   [1][140/424]  lr: 5.0000e-04  eta: 3:02:20  time: 0.2437  data_time: 0.0194  memory: 3489  loss: 0.6936
+07/15 18:33:24 - EasyMedAI - INFO - Epoch(train)   [1][150/424]  lr: 5.0000e-04  eta: 3:01:40  time: 0.2441  data_time: 0.0194  memory: 3489  loss: 0.6826
+07/15 18:33:27 - EasyMedAI - INFO - Epoch(train)   [1][160/424]  lr: 5.0000e-04  eta: 3:01:05  time: 0.2446  data_time: 0.0194  memory: 3489  loss: 0.6698
+07/15 18:33:29 - EasyMedAI - INFO - Epoch(train)   [1][170/424]  lr: 5.0000e-04  eta: 3:00:35  time: 0.2449  data_time: 0.0194  memory: 3489  loss: 0.6565
+07/15 18:33:32 - EasyMedAI - INFO - Epoch(train)   [1][180/424]  lr: 5.0000e-04  eta: 3:00:08  time: 0.2452  data_time: 0.0194  memory: 3489  loss: 0.6478
+07/15 18:33:34 - EasyMedAI - INFO - Epoch(train)   [1][190/424]  lr: 5.0000e-04  eta: 2:59:44  time: 0.2454  data_time: 0.0194  memory: 3489  loss: 0.6427
+07/15 18:33:36 - EasyMedAI - INFO - Epoch(train)   [1][200/424]  lr: 5.0000e-04  eta: 2:59:23  time: 0.2457  data_time: 0.0194  memory: 3489  loss: 0.6387
+07/15 18:33:39 - EasyMedAI - INFO - Epoch(train)   [1][210/424]  lr: 5.0000e-04  eta: 2:59:05  time: 0.2459  data_time: 0.0194  memory: 3489  loss: 0.6360
+07/15 18:33:41 - EasyMedAI - INFO - Epoch(train)   [1][220/424]  lr: 5.0000e-04  eta: 2:58:47  time: 0.2462  data_time: 0.0193  memory: 3489  loss: 0.6297
+07/15 18:33:44 - EasyMedAI - INFO - Epoch(train)   [1][230/424]  lr: 5.0000e-04  eta: 2:58:33  time: 0.2464  data_time: 0.0193  memory: 3489  loss: 0.6210
+07/15 18:33:46 - EasyMedAI - INFO - Epoch(train)   [1][240/424]  lr: 5.0000e-04  eta: 2:58:21  time: 0.2467  data_time: 0.0194  memory: 3489  loss: 0.6232
+07/15 18:33:49 - EasyMedAI - INFO - Epoch(train)   [1][250/424]  lr: 5.0000e-04  eta: 2:58:10  time: 0.2471  data_time: 0.0194  memory: 3489  loss: 0.6128
+07/15 18:33:51 - EasyMedAI - INFO - Epoch(train)   [1][260/424]  lr: 5.0000e-04  eta: 2:57:59  time: 0.2473  data_time: 0.0194  memory: 3489  loss: 0.6084
+07/15 18:33:54 - EasyMedAI - INFO - Epoch(train)   [1][270/424]  lr: 5.0000e-04  eta: 2:57:49  time: 0.2476  data_time: 0.0194  memory: 3489  loss: 0.6030
+07/15 18:33:56 - EasyMedAI - INFO - Epoch(train)   [1][280/424]  lr: 5.0000e-04  eta: 2:57:41  time: 0.2480  data_time: 0.0195  memory: 3489  loss: 0.5976
+07/15 18:33:59 - EasyMedAI - INFO - Epoch(train)   [1][290/424]  lr: 5.0000e-04  eta: 2:57:34  time: 0.2483  data_time: 0.0194  memory: 3489  loss: 0.5962
+07/15 18:34:01 - EasyMedAI - INFO - Epoch(train)   [1][300/424]  lr: 5.0000e-04  eta: 2:57:30  time: 0.2488  data_time: 0.0195  memory: 3489  loss: 0.5964
+07/15 18:34:04 - EasyMedAI - INFO - Epoch(train)   [1][310/424]  lr: 5.0000e-04  eta: 2:57:26  time: 0.2493  data_time: 0.0195  memory: 3489  loss: 0.5928
+07/15 18:34:06 - EasyMedAI - INFO - Epoch(train)   [1][320/424]  lr: 5.0000e-04  eta: 2:57:25  time: 0.2500  data_time: 0.0196  memory: 3489  loss: 0.5927
+07/15 18:34:09 - EasyMedAI - INFO - Epoch(train)   [1][330/424]  lr: 5.0000e-04  eta: 2:57:24  time: 0.2506  data_time: 0.0197  memory: 3489  loss: 0.5923
+07/15 18:34:12 - EasyMedAI - INFO - Epoch(train)   [1][340/424]  lr: 5.0000e-04  eta: 2:57:25  time: 0.2513  data_time: 0.0196  memory: 3489  loss: 0.5972
+07/15 18:34:14 - EasyMedAI - INFO - Epoch(train)   [1][350/424]  lr: 5.0000e-04  eta: 2:57:25  time: 0.2520  data_time: 0.0196  memory: 3489  loss: 0.6057
+07/15 18:34:17 - EasyMedAI - INFO - Epoch(train)   [1][360/424]  lr: 5.0000e-04  eta: 2:57:23  time: 0.2525  data_time: 0.0197  memory: 3489  loss: 0.6070
+07/15 18:34:19 - EasyMedAI - INFO - Epoch(train)   [1][370/424]  lr: 5.0000e-04  eta: 2:57:23  time: 0.2532  data_time: 0.0197  memory: 3489  loss: 0.6098
+07/15 18:34:22 - EasyMedAI - INFO - Epoch(train)   [1][380/424]  lr: 5.0000e-04  eta: 2:57:21  time: 0.2536  data_time: 0.0197  memory: 3489  loss: 0.6087
+07/15 18:34:24 - EasyMedAI - INFO - Epoch(train)   [1][390/424]  lr: 5.0000e-04  eta: 2:57:22  time: 0.2542  data_time: 0.0197  memory: 3489  loss: 0.6084
+07/15 18:34:27 - EasyMedAI - INFO - Epoch(train)   [1][400/424]  lr: 5.0000e-04  eta: 2:57:21  time: 0.2545  data_time: 0.0197  memory: 3489  loss: 0.6067
+07/15 18:34:29 - EasyMedAI - INFO - Epoch(train)   [1][410/424]  lr: 5.0000e-04  eta: 2:57:22  time: 0.2550  data_time: 0.0197  memory: 3489  loss: 0.6037
+07/15 18:34:32 - EasyMedAI - INFO - Epoch(train)   [1][420/424]  lr: 5.0000e-04  eta: 2:57:20  time: 0.2551  data_time: 0.0197  memory: 3489  loss: 0.6035
+07/15 18:34:33 - EasyMedAI - INFO - Exp name: medsam_vit_b_pretrained_resnet50_MSD_Task09_Spleen_20240715_183243
+/home/botao/anaconda3/envs/LVMWorkFlow/lib/python3.9/site-packages/mmengine/visualization/visualizer.py:987: UserWarning: Since the spatial dimensions of overlaid_image: (512, 512) and featmap: torch.Size([256, 256]) are not same, the feature map will be interpolated. This may cause mismatch problems !
+  warnings.warn(
+07/15 18:34:41 - EasyMedAI - INFO - Epoch(val)   [1][ 10/101]    eta: 0:01:06  time: 0.7341  data_time: 0.3048  memory: 5727  
+07/15 18:34:49 - EasyMedAI - INFO - Epoch(val)   [1][ 20/101]    eta: 0:01:04  time: 0.7917  data_time: 0.3672  memory: 5727  
+07/15 18:34:59 - EasyMedAI - INFO - Epoch(val)   [1][ 30/101]    eta: 0:01:00  time: 0.8568  data_time: 0.4350  memory: 5727  
+07/15 18:35:08 - EasyMedAI - INFO - Epoch(val)   [1][ 40/101]    eta: 0:00:52  time: 0.8652  data_time: 0.4455  memory: 5727  
+07/15 18:35:17 - EasyMedAI - INFO - Epoch(val)   [1][ 50/101]    eta: 0:00:44  time: 0.8708  data_time: 0.4524  memory: 5727  
+07/15 18:35:26 - EasyMedAI - INFO - Epoch(val)   [1][ 60/101]    eta: 0:00:36  time: 0.8804  data_time: 0.4629  memory: 5727  
+07/15 18:35:36 - EasyMedAI - INFO - Epoch(val)   [1][ 70/101]    eta: 0:00:27  time: 0.8939  data_time: 0.4770  memory: 5727  
+07/15 18:35:44 - EasyMedAI - INFO - Epoch(val)   [1][ 80/101]    eta: 0:00:18  time: 0.8824  data_time: 0.4663  memory: 5727  
+07/15 18:35:54 - EasyMedAI - INFO - Epoch(val)   [1][ 90/101]    eta: 0:00:09  time: 0.8877  data_time: 0.4718  memory: 5727  
+07/15 18:36:04 - EasyMedAI - INFO - Epoch(val)   [1][100/101]    eta: 0:00:00  time: 0.9006  data_time: 0.4849  memory: 5727  
+07/15 18:36:04 - EasyMedAI - INFO - Epoch(val) [1][101/101]    t/idice: 0.0046  data_time: 0.4852  time: 0.9010
+07/15 18:36:07 - EasyMedAI - INFO - Epoch(train)   [2][ 10/424]  lr: 5.0000e-04  eta: 2:57:14  time: 0.2546  data_time: 0.0198  memory: 5727  loss: 0.6004
+07/15 18:36:09 - EasyMedAI - INFO - Epoch(train)   [2][ 20/424]  lr: 5.0000e-04  eta: 2:57:06  time: 0.2539  data_time: 0.0199  memory: 3489  loss: 0.5974
+07/15 18:36:12 - EasyMedAI - INFO - Epoch(train)   [2][ 30/424]  lr: 5.0000e-04  eta: 2:56:59  time: 0.2532  data_time: 0.0199  memory: 3489  loss: 0.5947
+07/15 18:36:14 - EasyMedAI - INFO - Epoch(train)   [2][ 40/424]  lr: 5.0000e-04  eta: 2:56:53  time: 0.2527  data_time: 0.0200  memory: 3489  loss: 0.6028
+07/15 18:36:17 - EasyMedAI - INFO - Epoch(train)   [2][ 50/424]  lr: 5.0000e-04  eta: 2:56:46  time: 0.2519  data_time: 0.0200  memory: 3489  loss: 0.6051
+07/15 18:36:19 - EasyMedAI - INFO - Epoch(train)   [2][ 60/424]  lr: 5.0000e-04  eta: 2:56:40  time: 0.2514  data_time: 0.0200  memory: 3489  loss: 0.6115
+07/15 18:36:22 - EasyMedAI - INFO - Epoch(train)   [2][ 70/424]  lr: 5.0000e-04  eta: 2:56:34  time: 0.2507  data_time: 0.0201  memory: 3489  loss: 0.6160
+07/15 18:36:24 - EasyMedAI - INFO - Epoch(train)   [2][ 80/424]  lr: 5.0000e-04  eta: 2:56:29  time: 0.2502  data_time: 0.0201  memory: 3489  loss: 0.6213
+07/15 18:36:27 - EasyMedAI - INFO - Epoch(train)   [2][ 90/424]  lr: 5.0000e-04  eta: 2:56:26  time: 0.2498  data_time: 0.0201  memory: 3489  loss: 0.6242
+07/15 18:36:29 - EasyMedAI - INFO - Epoch(train)   [2][100/424]  lr: 5.0000e-04  eta: 2:56:26  time: 0.2499  data_time: 0.0202  memory: 3489  loss: 0.6219
+07/15 18:36:32 - EasyMedAI - INFO - Epoch(train)   [2][110/424]  lr: 5.0000e-04  eta: 2:56:27  time: 0.2506  data_time: 0.0200  memory: 3489  loss: 0.6232
+07/15 18:36:35 - EasyMedAI - INFO - Epoch(train)   [2][120/424]  lr: 5.0000e-04  eta: 2:56:30  time: 0.2518  data_time: 0.0200  memory: 3489  loss: 0.6180
+07/15 18:36:37 - EasyMedAI - INFO - Epoch(train)   [2][130/424]  lr: 5.0000e-04  eta: 2:56:34  time: 0.2532  data_time: 0.0200  memory: 3489  loss: 0.6141
+07/15 18:36:40 - EasyMedAI - INFO - Epoch(train)   [2][140/424]  lr: 5.0000e-04  eta: 2:56:38  time: 0.2545  data_time: 0.0200  memory: 3489  loss: 0.6019
+07/15 18:36:42 - EasyMedAI - INFO - Epoch(train)   [2][150/424]  lr: 5.0000e-04  eta: 2:56:41  time: 0.2558  data_time: 0.0200  memory: 3489  loss: 0.5979
+07/15 18:36:45 - EasyMedAI - INFO - Epoch(train)   [2][160/424]  lr: 5.0000e-04  eta: 2:56:45  time: 0.2571  data_time: 0.0200  memory: 3489  loss: 0.5933
+07/15 18:36:48 - EasyMedAI - INFO - Epoch(train)   [2][170/424]  lr: 5.0000e-04  eta: 2:56:49  time: 0.2586  data_time: 0.0200  memory: 3489  loss: 0.5879
+07/15 18:36:50 - EasyMedAI - INFO - Epoch(train)   [2][180/424]  lr: 5.0000e-04  eta: 2:56:53  time: 0.2598  data_time: 0.0201  memory: 3489  loss: 0.5815
+07/15 18:36:53 - EasyMedAI - INFO - Epoch(train)   [2][190/424]  lr: 5.0000e-04  eta: 2:56:56  time: 0.2607  data_time: 0.0200  memory: 3489  loss: 0.5799
+07/15 18:36:56 - EasyMedAI - INFO - Epoch(train)   [2][200/424]  lr: 5.0000e-04  eta: 2:56:58  time: 0.2614  data_time: 0.0201  memory: 3489  loss: 0.5813
+07/15 18:36:58 - EasyMedAI - INFO - Epoch(train)   [2][210/424]  lr: 5.0000e-04  eta: 2:57:00  time: 0.2618  data_time: 0.0200  memory: 3489  loss: 0.5833
+07/15 18:37:01 - EasyMedAI - INFO - Epoch(train)   [2][220/424]  lr: 5.0000e-04  eta: 2:57:03  time: 0.2621  data_time: 0.0201  memory: 3489  loss: 0.5793
+07/15 18:37:03 - EasyMedAI - INFO - Epoch(train)   [2][230/424]  lr: 5.0000e-04  eta: 2:57:05  time: 0.2621  data_time: 0.0200  memory: 3489  loss: 0.5759
+07/15 18:37:06 - EasyMedAI - INFO - Epoch(train)   [2][240/424]  lr: 5.0000e-04  eta: 2:57:07  time: 0.2620  data_time: 0.0200  memory: 3489  loss: 0.5774
+07/15 18:37:09 - EasyMedAI - INFO - Epoch(train)   [2][250/424]  lr: 5.0000e-04  eta: 2:57:08  time: 0.2619  data_time: 0.0200  memory: 3489  loss: 0.5757
+07/15 18:37:11 - EasyMedAI - INFO - Epoch(train)   [2][260/424]  lr: 5.0000e-04  eta: 2:57:10  time: 0.2618  data_time: 0.0200  memory: 3489  loss: 0.5735
+07/15 18:37:14 - EasyMedAI - INFO - Epoch(train)   [2][270/424]  lr: 5.0000e-04  eta: 2:57:11  time: 0.2616  data_time: 0.0200  memory: 3489  loss: 0.5743
+07/15 18:37:16 - EasyMedAI - INFO - Epoch(train)   [2][280/424]  lr: 5.0000e-04  eta: 2:57:11  time: 0.2612  data_time: 0.0200  memory: 3489  loss: 0.5749
+07/15 18:37:19 - EasyMedAI - INFO - Epoch(train)   [2][290/424]  lr: 5.0000e-04  eta: 2:57:11  time: 0.2611  data_time: 0.0200  memory: 3489  loss: 0.5723
+07/15 18:37:22 - EasyMedAI - INFO - Epoch(train)   [2][300/424]  lr: 5.0000e-04  eta: 2:57:12  time: 0.2609  data_time: 0.0200  memory: 3489  loss: 0.5699
+07/15 18:37:24 - EasyMedAI - INFO - Epoch(train)   [2][310/424]  lr: 5.0000e-04  eta: 2:57:11  time: 0.2607  data_time: 0.0200  memory: 3489  loss: 0.5662
+07/15 18:37:27 - EasyMedAI - INFO - Epoch(train)   [2][320/424]  lr: 5.0000e-04  eta: 2:57:10  time: 0.2602  data_time: 0.0200  memory: 3489  loss: 0.5683
+07/15 18:37:29 - EasyMedAI - INFO - Epoch(train)   [2][330/424]  lr: 5.0000e-04  eta: 2:57:10  time: 0.2600  data_time: 0.0200  memory: 3489  loss: 0.5694
+07/15 18:37:32 - EasyMedAI - INFO - Epoch(train)   [2][340/424]  lr: 5.0000e-04  eta: 2:57:09  time: 0.2596  data_time: 0.0199  memory: 3489  loss: 0.5739
+07/15 18:37:35 - EasyMedAI - INFO - Epoch(train)   [2][350/424]  lr: 5.0000e-04  eta: 2:57:08  time: 0.2595  data_time: 0.0199  memory: 3489  loss: 0.5728
+07/15 18:37:37 - EasyMedAI - INFO - Epoch(train)   [2][360/424]  lr: 5.0000e-04  eta: 2:57:07  time: 0.2591  data_time: 0.0199  memory: 3489  loss: 0.5715
+07/15 18:37:40 - EasyMedAI - INFO - Epoch(train)   [2][370/424]  lr: 5.0000e-04  eta: 2:57:05  time: 0.2588  data_time: 0.0199  memory: 3489  loss: 0.5724
+07/15 18:37:42 - EasyMedAI - INFO - Epoch(train)   [2][380/424]  lr: 5.0000e-04  eta: 2:57:04  time: 0.2585  data_time: 0.0199  memory: 3489  loss: 0.5721
+07/15 18:37:45 - EasyMedAI - INFO - Epoch(train)   [2][390/424]  lr: 5.0000e-04  eta: 2:57:02  time: 0.2581  data_time: 0.0199  memory: 3489  loss: 0.5703
+07/15 18:37:47 - EasyMedAI - INFO - Epoch(train)   [2][400/424]  lr: 5.0000e-04  eta: 2:57:00  time: 0.2578  data_time: 0.0199  memory: 3489  loss: 0.5678
+07/15 18:37:50 - EasyMedAI - INFO - Epoch(train)   [2][410/424]  lr: 5.0000e-04  eta: 2:56:58  time: 0.2575  data_time: 0.0199  memory: 3489  loss: 0.5707
+07/15 18:37:53 - EasyMedAI - INFO - Epoch(train)   [2][420/424]  lr: 5.0000e-04  eta: 2:56:55  time: 0.2574  data_time: 0.0199  memory: 3489  loss: 0.5706
+07/15 18:37:54 - EasyMedAI - INFO - Exp name: medsam_vit_b_pretrained_resnet50_MSD_Task09_Spleen_20240715_183243
+07/15 18:38:01 - EasyMedAI - INFO - Epoch(val)   [2][ 10/101]    eta: 0:01:05  time: 0.9016  data_time: 0.4862  memory: 5727  
+07/15 18:38:10 - EasyMedAI - INFO - Epoch(val)   [2][ 20/101]    eta: 0:01:03  time: 0.9001  data_time: 0.4844  memory: 5727  
+07/15 18:38:18 - EasyMedAI - INFO - Epoch(val)   [2][ 30/101]    eta: 0:00:56  time: 0.8842  data_time: 0.4682  memory: 5727  
+07/15 18:38:26 - EasyMedAI - INFO - Epoch(val)   [2][ 40/101]    eta: 0:00:48  time: 0.8746  data_time: 0.4583  memory: 5727  
+07/15 18:38:34 - EasyMedAI - INFO - Epoch(val)   [2][ 50/101]    eta: 0:00:40  time: 0.8641  data_time: 0.4475  memory: 5727  
+07/15 18:38:42 - EasyMedAI - INFO - Epoch(val)   [2][ 60/101]    eta: 0:00:32  time: 0.8489  data_time: 0.4320  memory: 5727  
+07/15 18:38:50 - EasyMedAI - INFO - Epoch(val)   [2][ 70/101]    eta: 0:00:25  time: 0.8378  data_time: 0.4208  memory: 5727  
+07/15 18:38:59 - EasyMedAI - INFO - Epoch(val)   [2][ 80/101]    eta: 0:00:17  time: 0.8510  data_time: 0.4337  memory: 5727  
+07/15 18:39:08 - EasyMedAI - INFO - Epoch(val)   [2][ 90/101]    eta: 0:00:09  time: 0.8355  data_time: 0.4182  memory: 5727  
+07/15 18:39:16 - EasyMedAI - INFO - Epoch(val)   [2][100/101]    eta: 0:00:00  time: 0.8235  data_time: 0.4062  memory: 5727  
+07/15 18:39:17 - EasyMedAI - INFO - Epoch(val) [2][101/101]    t/idice: 0.1704  data_time: 0.4065  time: 0.8238
+07/15 18:39:19 - EasyMedAI - INFO - Epoch(train)   [3][ 10/424]  lr: 5.0000e-04  eta: 2:56:48  time: 0.2561  data_time: 0.0199  memory: 5727  loss: 0.5736
+07/15 18:39:22 - EasyMedAI - INFO - Epoch(train)   [3][ 20/424]  lr: 5.0000e-04  eta: 2:56:43  time: 0.2552  data_time: 0.0199  memory: 3489  loss: 0.5699
+07/15 18:39:24 - EasyMedAI - INFO - Epoch(train)   [3][ 30/424]  lr: 5.0000e-04  eta: 2:56:37  time: 0.2542  data_time: 0.0199  memory: 3489  loss: 0.5717
+07/15 18:39:27 - EasyMedAI - INFO - Epoch(train)   [3][ 40/424]  lr: 5.0000e-04  eta: 2:56:31  time: 0.2533  data_time: 0.0198  memory: 3489  loss: 0.5683
+07/15 18:39:29 - EasyMedAI - INFO - Epoch(train)   [3][ 50/424]  lr: 5.0000e-04  eta: 2:56:25  time: 0.2524  data_time: 0.0198  memory: 3489  loss: 0.5662
+07/15 18:39:32 - EasyMedAI - INFO - Epoch(train)   [3][ 60/424]  lr: 5.0000e-04  eta: 2:56:20  time: 0.2516  data_time: 0.0198  memory: 3489  loss: 0.5680
+07/15 18:39:34 - EasyMedAI - INFO - Epoch(train)   [3][ 70/424]  lr: 5.0000e-04  eta: 2:56:15  time: 0.2509  data_time: 0.0197  memory: 3489  loss: 0.5717
+07/15 18:39:37 - EasyMedAI - INFO - Epoch(train)   [3][ 80/424]  lr: 5.0000e-04  eta: 2:56:10  time: 0.2502  data_time: 0.0196  memory: 3489  loss: 0.5698
+07/15 18:39:39 - EasyMedAI - INFO - Epoch(train)   [3][ 90/424]  lr: 5.0000e-04  eta: 2:56:06  time: 0.2497  data_time: 0.0195  memory: 3489  loss: 0.5680
+07/15 18:39:42 - EasyMedAI - INFO - Epoch(train)   [3][100/424]  lr: 5.0000e-04  eta: 2:56:03  time: 0.2495  data_time: 0.0195  memory: 3489  loss: 0.5641
+07/15 18:39:44 - EasyMedAI - INFO - Epoch(train)   [3][110/424]  lr: 5.0000e-04  eta: 2:56:00  time: 0.2501  data_time: 0.0194  memory: 3489  loss: 0.5601
+07/15 18:39:47 - EasyMedAI - INFO - Epoch(train)   [3][120/424]  lr: 5.0000e-04  eta: 2:55:59  time: 0.2512  data_time: 0.0193  memory: 3489  loss: 0.5589
+07/15 18:39:50 - EasyMedAI - INFO - Epoch(train)   [3][130/424]  lr: 5.0000e-04  eta: 2:55:59  time: 0.2523  data_time: 0.0193  memory: 3489  loss: 0.5572
+07/15 18:39:52 - EasyMedAI - INFO - Epoch(train)   [3][140/424]  lr: 5.0000e-04  eta: 2:55:59  time: 0.2537  data_time: 0.0193  memory: 3489  loss: 0.5554
+07/15 18:39:55 - EasyMedAI - INFO - Epoch(train)   [3][150/424]  lr: 5.0000e-04  eta: 2:56:00  time: 0.2552  data_time: 0.0193  memory: 3489  loss: 0.5551
+07/15 18:39:55 - EasyMedAI - INFO - Exp name: medsam_vit_b_pretrained_resnet50_MSD_Task09_Spleen_20240715_183243
+07/15 18:39:58 - EasyMedAI - INFO - Epoch(train)   [3][160/424]  lr: 5.0000e-04  eta: 2:56:01  time: 0.2567  data_time: 0.0194  memory: 3489  loss: 0.5503
+07/15 18:40:00 - EasyMedAI - INFO - Epoch(train)   [3][170/424]  lr: 5.0000e-04  eta: 2:56:03  time: 0.2583  data_time: 0.0195  memory: 3489  loss: 0.5524
+07/15 18:40:03 - EasyMedAI - INFO - Epoch(train)   [3][180/424]  lr: 5.0000e-04  eta: 2:56:04  time: 0.2598  data_time: 0.0195  memory: 3489  loss: 0.5539
+07/15 18:40:06 - EasyMedAI - INFO - Epoch(train)   [3][190/424]  lr: 5.0000e-04  eta: 2:56:06  time: 0.2613  data_time: 0.0196  memory: 3489  loss: 0.5528
+07/15 18:40:08 - EasyMedAI - INFO - Epoch(train)   [3][200/424]  lr: 5.0000e-04  eta: 2:56:07  time: 0.2625  data_time: 0.0197  memory: 3489  loss: 0.5581
+07/15 18:40:11 - EasyMedAI - INFO - Epoch(train)   [3][210/424]  lr: 5.0000e-04  eta: 2:56:09  time: 0.2636  data_time: 0.0198  memory: 3489  loss: 0.5632
+07/15 18:40:14 - EasyMedAI - INFO - Epoch(train)   [3][220/424]  lr: 5.0000e-04  eta: 2:56:10  time: 0.2643  data_time: 0.0198  memory: 3489  loss: 0.5622
+07/15 18:40:16 - EasyMedAI - INFO - Epoch(train)   [3][230/424]  lr: 5.0000e-04  eta: 2:56:12  time: 0.2650  data_time: 0.0199  memory: 3489  loss: 0.5619
+07/15 18:40:19 - EasyMedAI - INFO - Epoch(train)   [3][240/424]  lr: 5.0000e-04  eta: 2:56:13  time: 0.2653  data_time: 0.0200  memory: 3489  loss: 0.5663
+07/15 18:40:21 - EasyMedAI - INFO - Epoch(train)   [3][250/424]  lr: 5.0000e-04  eta: 2:56:14  time: 0.2655  data_time: 0.0201  memory: 3489  loss: 0.5656
+07/15 18:40:24 - EasyMedAI - INFO - Epoch(train)   [3][260/424]  lr: 5.0000e-04  eta: 2:56:14  time: 0.2654  data_time: 0.0200  memory: 3489  loss: 0.5656
+07/15 18:40:27 - EasyMedAI - INFO - Epoch(train)   [3][270/424]  lr: 5.0000e-04  eta: 2:56:14  time: 0.2651  data_time: 0.0200  memory: 3489  loss: 0.5590
+07/15 18:40:29 - EasyMedAI - INFO - Epoch(train)   [3][280/424]  lr: 5.0000e-04  eta: 2:56:14  time: 0.2649  data_time: 0.0200  memory: 3489  loss: 0.5607
+07/15 18:40:32 - EasyMedAI - INFO - Epoch(train)   [3][290/424]  lr: 5.0000e-04  eta: 2:56:13  time: 0.2644  data_time: 0.0200  memory: 3489  loss: 0.5614
+07/15 18:40:35 - EasyMedAI - INFO - Epoch(train)   [3][300/424]  lr: 5.0000e-04  eta: 2:56:13  time: 0.2642  data_time: 0.0200  memory: 3489  loss: 0.5584
+07/15 18:40:37 - EasyMedAI - INFO - Epoch(train)   [3][310/424]  lr: 5.0000e-04  eta: 2:56:12  time: 0.2636  data_time: 0.0199  memory: 3489  loss: 0.5561
+07/15 18:40:40 - EasyMedAI - INFO - Epoch(train)   [3][320/424]  lr: 5.0000e-04  eta: 2:56:10  time: 0.2629  data_time: 0.0199  memory: 3489  loss: 0.5564
+07/15 18:40:42 - EasyMedAI - INFO - Epoch(train)   [3][330/424]  lr: 5.0000e-04  eta: 2:56:09  time: 0.2622  data_time: 0.0197  memory: 3489  loss: 0.5584
+07/15 18:40:45 - EasyMedAI - INFO - Epoch(train)   [3][340/424]  lr: 5.0000e-04  eta: 2:56:07  time: 0.2617  data_time: 0.0197  memory: 3489  loss: 0.5579
+07/15 18:40:48 - EasyMedAI - INFO - Epoch(train)   [3][350/424]  lr: 5.0000e-04  eta: 2:56:06  time: 0.2611  data_time: 0.0196  memory: 3489  loss: 0.5617
+07/15 18:40:50 - EasyMedAI - INFO - Epoch(train)   [3][360/424]  lr: 5.0000e-04  eta: 2:56:05  time: 0.2609  data_time: 0.0197  memory: 3489  loss: 0.5630
+07/15 18:40:53 - EasyMedAI - INFO - Epoch(train)   [3][370/424]  lr: 5.0000e-04  eta: 2:56:03  time: 0.2605  data_time: 0.0196  memory: 3489  loss: 0.5627
+07/15 18:40:55 - EasyMedAI - INFO - Epoch(train)   [3][380/424]  lr: 5.0000e-04  eta: 2:56:01  time: 0.2600  data_time: 0.0195  memory: 3489  loss: 0.5569
+07/15 18:40:58 - EasyMedAI - INFO - Epoch(train)   [3][390/424]  lr: 5.0000e-04  eta: 2:55:59  time: 0.2598  data_time: 0.0194  memory: 3489  loss: 0.5593
+07/15 18:41:01 - EasyMedAI - INFO - Epoch(train)   [3][400/424]  lr: 5.0000e-04  eta: 2:55:57  time: 0.2594  data_time: 0.0194  memory: 3489  loss: 0.5608
+07/15 18:41:03 - EasyMedAI - INFO - Epoch(train)   [3][410/424]  lr: 5.0000e-04  eta: 2:55:55  time: 0.2592  data_time: 0.0194  memory: 3489  loss: 0.5564
+07/15 18:41:06 - EasyMedAI - INFO - Epoch(train)   [3][420/424]  lr: 5.0000e-04  eta: 2:55:54  time: 0.2593  data_time: 0.0194  memory: 3489  loss: 0.5568
+07/15 18:41:07 - EasyMedAI - INFO - Exp name: medsam_vit_b_pretrained_resnet50_MSD_Task09_Spleen_20240715_183243
+07/15 18:41:16 - EasyMedAI - INFO - Epoch(val)   [3][ 10/101]    eta: 0:01:21  time: 0.8396  data_time: 0.4225  memory: 5727  
+07/15 18:41:24 - EasyMedAI - INFO - Epoch(val)   [3][ 20/101]    eta: 0:01:08  time: 0.8355  data_time: 0.4184  memory: 5727  
+07/15 18:41:32 - EasyMedAI - INFO - Epoch(val)   [3][ 30/101]    eta: 0:00:59  time: 0.8359  data_time: 0.4187  memory: 5727  
+07/15 18:41:41 - EasyMedAI - INFO - Epoch(val)   [3][ 40/101]    eta: 0:00:51  time: 0.8413  data_time: 0.4240  memory: 5727  
+07/15 18:41:49 - EasyMedAI - INFO - Epoch(val)   [3][ 50/101]    eta: 0:00:42  time: 0.8398  data_time: 0.4225  memory: 5727  
+07/15 18:41:57 - EasyMedAI - INFO - Epoch(val)   [3][ 60/101]    eta: 0:00:33  time: 0.8410  data_time: 0.4236  memory: 5727  
+07/15 18:42:05 - EasyMedAI - INFO - Epoch(val)   [3][ 70/101]    eta: 0:00:25  time: 0.8356  data_time: 0.4183  memory: 5727  
+07/15 18:42:12 - EasyMedAI - INFO - Epoch(val)   [3][ 80/101]    eta: 0:00:17  time: 0.8226  data_time: 0.4055  memory: 5727  
+07/15 18:42:21 - EasyMedAI - INFO - Epoch(val)   [3][ 90/101]    eta: 0:00:08  time: 0.8187  data_time: 0.4016  memory: 5727  
+07/15 18:42:29 - EasyMedAI - INFO - Epoch(val)   [3][100/101]    eta: 0:00:00  time: 0.8200  data_time: 0.4027  memory: 5727  
+07/15 18:42:30 - EasyMedAI - INFO - Epoch(val) [3][101/101]    t/idice: 0.2192  data_time: 0.4013  time: 0.8186
+07/15 18:42:32 - EasyMedAI - INFO - Epoch(train)   [4][ 10/424]  lr: 5.0000e-04  eta: 2:55:49  time: 0.2585  data_time: 0.0197  memory: 5727  loss: 0.5557
+07/15 18:42:35 - EasyMedAI - INFO - Epoch(train)   [4][ 20/424]  lr: 5.0000e-04  eta: 2:55:44  time: 0.2575  data_time: 0.0198  memory: 3489  loss: 0.5516
+07/15 18:42:37 - EasyMedAI - INFO - Epoch(train)   [4][ 30/424]  lr: 5.0000e-04  eta: 2:55:39  time: 0.2564  data_time: 0.0198  memory: 3489  loss: 0.5526
+07/15 18:42:40 - EasyMedAI - INFO - Epoch(train)   [4][ 40/424]  lr: 5.0000e-04  eta: 2:55:35  time: 0.2554  data_time: 0.0199  memory: 3489  loss: 0.5515
+07/15 18:42:42 - EasyMedAI - INFO - Epoch(train)   [4][ 50/424]  lr: 5.0000e-04  eta: 2:55:30  time: 0.2545  data_time: 0.0200  memory: 3489  loss: 0.5570
+07/15 18:42:45 - EasyMedAI - INFO - Epoch(train)   [4][ 60/424]  lr: 5.0000e-04  eta: 2:55:26  time: 0.2537  data_time: 0.0201  memory: 3489  loss: 0.5559
+07/15 18:42:47 - EasyMedAI - INFO - Epoch(train)   [4][ 70/424]  lr: 5.0000e-04  eta: 2:55:21  time: 0.2528  data_time: 0.0203  memory: 3489  loss: 0.5531
+07/15 18:42:50 - EasyMedAI - INFO - Epoch(train)   [4][ 80/424]  lr: 5.0000e-04  eta: 2:55:17  time: 0.2521  data_time: 0.0204  memory: 3489  loss: 0.5562
+07/15 18:42:52 - EasyMedAI - INFO - Epoch(train)   [4][ 90/424]  lr: 5.0000e-04  eta: 2:55:14  time: 0.2517  data_time: 0.0205  memory: 3489  loss: 0.5612
+07/15 18:42:55 - EasyMedAI - INFO - Epoch(train)   [4][100/424]  lr: 5.0000e-04  eta: 2:55:12  time: 0.2513  data_time: 0.0206  memory: 3489  loss: 0.5603
+07/15 18:42:58 - EasyMedAI - INFO - Epoch(train)   [4][110/424]  lr: 5.0000e-04  eta: 2:55:10  time: 0.2519  data_time: 0.0204  memory: 3489  loss: 0.5571
+07/15 18:43:00 - EasyMedAI - INFO - Epoch(train)   [4][120/424]  lr: 5.0000e-04  eta: 2:55:08  time: 0.2531  data_time: 0.0204  memory: 3489  loss: 0.5573
+07/15 18:43:03 - EasyMedAI - INFO - Epoch(train)   [4][130/424]  lr: 5.0000e-04  eta: 2:55:08  time: 0.2544  data_time: 0.0204  memory: 3489  loss: 0.5589
+07/15 18:43:05 - EasyMedAI - INFO - Epoch(train)   [4][140/424]  lr: 5.0000e-04  eta: 2:55:07  time: 0.2558  data_time: 0.0204  memory: 3489  loss: 0.5597
+07/15 18:43:08 - EasyMedAI - INFO - Epoch(train)   [4][150/424]  lr: 5.0000e-04  eta: 2:55:07  time: 0.2573  data_time: 0.0203  memory: 3489  loss: 0.5559
+07/15 18:43:11 - EasyMedAI - INFO - Epoch(train)   [4][160/424]  lr: 5.0000e-04  eta: 2:55:07  time: 0.2588  data_time: 0.0203  memory: 3489  loss: 0.5534
+07/15 18:43:13 - EasyMedAI - INFO - Epoch(train)   [4][170/424]  lr: 5.0000e-04  eta: 2:55:08  time: 0.2604  data_time: 0.0203  memory: 3489  loss: 0.5553
+07/15 18:43:16 - EasyMedAI - INFO - Epoch(train)   [4][180/424]  lr: 5.0000e-04  eta: 2:55:08  time: 0.2620  data_time: 0.0202  memory: 3489  loss: 0.5544

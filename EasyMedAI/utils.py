@@ -6,7 +6,7 @@ import numpy as np
 def create_color_to_class(classList):
     color_to_class = {}
     for item in classList:
-        r, g, b = random.randint(0, 255), random.randint(0, 255), random.randint(0, 255)
+        r, g, b = random.randint(10, 240), random.randint(10, 240), random.randint(10, 240)
         color_to_class[(r, g, b)] = item
     return color_to_class
 
