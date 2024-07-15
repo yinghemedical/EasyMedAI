@@ -1,3 +1,4 @@
+
 import EasyMedAI
 from EasyMedAI.dataset.MedMNIST_PLUS import MNIST_224,MNIST_128, MNISTSubSetType,MNIST_64
 from EasyMedAI.dataset.segmentation.demoDataset import CamVid,create_palette
@@ -15,7 +16,7 @@ device = torch.device("cuda:0")
 torch.cuda.set_device(device)
 
 color_to_class=create_color_to_class([0,1])
-trainModel =createTrainModel("sam_vit_l_pretrained",2,"resnet50")
+trainModel =createTrainModel("medsam_vit_b_pretrained",2,"resnet50")
 train_set= MSDDataSet("data/msd",subSetName=MSDSubSetType.Task09_Spleen,task_type=TaskType.Segmentation,dataset_type=DataSetType.train,transform=trainModel.transform_img,target_transform=trainModel.transform_lable)
 valid_set= MSDDataSet("data/msd",subSetName=MSDSubSetType.Task09_Spleen,task_type=TaskType.Segmentation,dataset_type=DataSetType.val,transform=trainModel.transform_img,target_transform=trainModel.transform_lable)
 

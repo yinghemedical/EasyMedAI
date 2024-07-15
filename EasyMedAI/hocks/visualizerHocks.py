@@ -33,7 +33,7 @@ class SegmentationVisHook(Hook):
         img_paths = data_samples['img_path']
         mask_paths = data_samples['mask_path']
         _, C, H, W = preds.shape
-        preds = torch.argmax(preds, dim=1)
+        preds = preds>0 #torch.argmax(preds, dim=1)
         for idx, (pred, img_path,
                   mask_path,load_type,featmap) in enumerate(zip(preds, img_paths, mask_paths,data_samples["load_type"],featmaps)):
             # pred_mask = np.zeros((H, W, 3), dtype=np.uint8)
@@ -45,25 +45,27 @@ class SegmentationVisHook(Hook):
                 gt_image=cv2.cvtColor(gt_mask,cv2.COLOR_GRAY2BGR)
                 gt_image=cv2.resize(gt_image,(image.shape[1],image.shape[0]))
                 for color, class_id in self.color_to_class.items():
-                    tp=gt_mask == class_id
-                    gt_image[:,:,0][tp]=color[2]
-                    gt_image[:,:,1][tp]=color[1]
-                    gt_image[:,:,2][tp]=color[0]
+                    if class_id >0:
+                        tp=gt_mask == class_id
+                        gt_image[:,:,0][tp]=color[2]
+                        gt_image[:,:,1][tp]=color[1]
+                        gt_image[:,:,2][tp]=color[0]
                 
             # image=cv2.resize(image,(W,H))
             # image = image.resize((H,W))
             runner.visualizer.set_image(image)
             for color, class_id in self.color_to_class.items():
-                tp=pred == class_id
-                # nparray = np.random.randint(0, 256, (100, 100, 3), dtype=np.uint8)
-                tp=np.asarray(tp.cpu().numpy(),dtype=np.uint8)
-                # tp=cv2.form.cvtColor(,cv2.COLOR_RGB2GRAY)
-                tp=cv2.resize(tp,(image.shape[1],image.shape[0]))
-                runner.visualizer.draw_binary_masks(
-                    tp==1,
-                    colors=[color],
-                    alphas=0.6,
-                )
+                if class_id >0:
+                    tp=pred[class_id] 
+                    # nparray = np.random.randint(0, 256, (100, 100, 3), dtype=np.uint8)
+                    tp=np.asarray(tp.cpu().numpy(),dtype=np.uint8)
+                    # tp=cv2.form.cvtColor(,cv2.COLOR_RGB2GRAY)
+                    tp=cv2.resize(tp,(image.shape[1],image.shape[0]))
+                    runner.visualizer.draw_binary_masks(
+                        tp==1,
+                        colors=[color],
+                        alphas=0.6,
+                    )
             # Convert RGB to BGR
             pred_mask = runner.visualizer.get_image()[..., ::-1]
             gt_mask = cv2.addWeighted(image,1,gt_image,0.6,0)
